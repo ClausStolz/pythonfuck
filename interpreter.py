@@ -6,9 +6,9 @@ def parse_blocks_in_code(code):
     blocks = {}
     block_start_array = []
     for i in range(len(code)):
-        if code[i] = '[':
+        if (code[i] == '['):
             block_start_array.append(i)
-        elif code[i] = ']':
+        elif (code[i] == ']'):
             blocks[i] = block_start_array[-1]
             blocks[block_start_array.pop()] = i
     return blocks

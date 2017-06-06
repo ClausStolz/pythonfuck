@@ -30,8 +30,10 @@ def run_code(code):
             char_buffer[x] += 1
         elif (char_value == '-'):
             char_buffer[x] -= 1
-        elif (char_buffer[x] == '.'):
-            print(chr(char_buffer[x]))
+        elif (char_value == '.'):
+            print(chr(char_buffer[x]), end = '')
+        elif (char_value == ','):
+            char_buffer[x] = int(input('Input: '))
         elif (char_value == '['):
             if (not char_buffer[x]):
                 i = blocks[i]

@@ -1,43 +1,50 @@
 
-def parse_code(code):
-    return ''.join(c for c in code if c in '><+-.,[]')
+class BrainFuck:
+    def __init__(self, aCode = ''):
+        self.code = aCode
+        self.x = 0
+        self.i = 0
 
-def parse_blocks_in_code(code):
-    blocks = {}
-    block_start_array = []
-    for i in range(len(code)):
-        if (code[i] == '['):
-            block_start_array.append(i)
-        elif (code[i] == ']'):
-            blocks[i] = block_start_array[-1]
-            blocks[block_start_array.pop()] = i
-    return blocks
+    def run_code(self, aCode = ''):
+        if (not aCode == ''):
+            self.code = aCode
 
-def run_code(code):
-    code = parse_code(code)
-    blocks = parse_blocks_in_code(code)
-    x = 0
-    i = 0
-    char_buffer = {0: 0}
-    while i < len(code):
-        char_value = code[i]
-        if (char_value == '>'):
-            x += 1
-            char_buffer.setdefault(x, 0)
-        elif (char_value == '<'):
-            x -= 1
-        elif (char_value == '+'):
-            char_buffer[x] += 1
-        elif (char_value == '-'):
-            char_buffer[x] -= 1
-        elif (char_value == '.'):
-            print(chr(char_buffer[x]), end = '')
-        elif (char_value == ','):
-            char_buffer[x] = int(input('Input: '))
-        elif (char_value == '['):
-            if (not char_buffer[x]):
-                i = blocks[i]
-        elif (char_value == ']'):
-            if (char_buffer[x]):
-                i = blocks[i]
-        i += 1
+        self.code = BrainFuck.parse_code(self)
+        blocks = BrainFuck.parse_blocks_in_code(self)
+        char_buffer = {0: 0}
+        while self.i < len(self.code):
+            char_value = self.code[self.i]
+            if (char_value == '>'):
+                self.x += 1
+                char_buffer.setdefault(self.x, 0)
+            elif (char_value == '<'):
+                self.x -= 1
+            elif (char_value == '+'):
+                char_buffer[self.x] += 1
+            elif (char_value == '-'):
+                char_buffer[self.x] -= 1
+            elif (char_value == '.'):
+                print(chr(char_buffer[self.x]), end = '')
+            elif (char_value == ','):
+                char_buffer[self.x] = int(input('Input: '))
+            elif (char_value == '['):
+                if (not char_buffer[self.x]):
+                    self.i = blocks[self.i]
+            elif (char_value == ']'):
+                if (char_buffer[self.x]):
+                    self.i = blocks[self.i]
+            self.i += 1
+
+    def parse_code(self):
+        return ''.join(c for c in self.code if c in '><+-.,[]')
+
+    def parse_blocks_in_code(self):
+        blocks = {}
+        block_start_array = []
+        for i in range(len(self.code)):
+            if (self.code[i] == '['):
+                block_start_array.append(i)
+            elif (self.code[i] == ']'):
+                blocks[i] = block_start_array[-1]
+                blocks[block_start_array.pop()] = i
+        return blocks
